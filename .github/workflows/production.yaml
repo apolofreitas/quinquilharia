@@ -9,12 +9,13 @@ on:
 jobs:
   Deploy:
     runs-on: ubuntu-latest
+    environment: "Production"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: lts
+          node-version: "latest"
           cache: yarn
 
       - name: Install Node Dependencies
