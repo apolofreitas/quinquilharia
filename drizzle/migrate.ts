@@ -8,6 +8,11 @@ import drizzleConfig from "@drizzle/drizzle.config";
 
 loadEnvConfig(".", process.env.NODE_ENV !== "production");
 
-const db = drizzle(sql);
+async function main() {
+  const db = drizzle(sql, { logger: true });
 
-migrate(db, { migrationsFolder: drizzleConfig.out });
+  await migrate(db, { migrationsFolder: drizzleConfig.out });
+
+  await sql.end();
+}
+main();
