@@ -28,7 +28,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Export Vercel Environment Information
-        run: vercel env pull .env
+        run: vercel env pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }} .env
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
