@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.4.2",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "vercel": "^33.5.0"
   }
 }
