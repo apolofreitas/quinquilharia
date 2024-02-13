@@ -9,7 +9,6 @@ import { Button, ButtonProps } from "@/components/ui/button";
 import {
   DialogContent,
   DialogHeader,
-  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
@@ -17,7 +16,6 @@ import {
   Drawer,
   DrawerContent,
   DrawerHeader,
-  DrawerPortal,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
@@ -34,6 +32,11 @@ export default function NewWishButton({ ...props }: ButtonProps) {
 
   const form = useForm<NewWishFormSchema>({
     resolver: zodResolver(newWishFormSchema),
+    defaultValues: {
+      uri: "",
+      title: "",
+      description: "",
+    },
   });
   const [step, setStep] = useState<1 | 2>(1);
 
@@ -70,28 +73,24 @@ export default function NewWishButton({ ...props }: ButtonProps) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
-        <DialogPortal>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{title}</DialogTitle>
-            </DialogHeader>
-            {content}
-          </DialogContent>
-        </DialogPortal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+          </DialogHeader>
+          {content}
+        </DialogContent>
       </Dialog>
     );
 
   return (
-    <Drawer shouldScaleBackground open={open} onOpenChange={setOpen}>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-      <DrawerPortal>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>{title}</DrawerTitle>
-          </DrawerHeader>
-          {content}
-        </DrawerContent>
-      </DrawerPortal>
+      <DrawerContent className="h-[96%]">
+        <DrawerHeader>
+          <DrawerTitle>{title}</DrawerTitle>
+        </DrawerHeader>
+        {content}
+      </DrawerContent>
     </Drawer>
   );
 }
