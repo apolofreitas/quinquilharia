@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 
 const breakpoints = theme.screens;
 
-type Breakpoint = keyof typeof breakpoints;
+export type Breakpoint = keyof typeof breakpoints;
 
 export function useBreakpoint(breakpoint: Breakpoint) {
   return useMediaQuery({

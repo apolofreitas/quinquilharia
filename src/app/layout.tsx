@@ -20,10 +20,8 @@ export default function Layout({ children }: PropsWithChildren) {
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          inter.variable
-        )}
+        vaul-drawer-wrapper=""
+        className={cn("font-sans antialiased", inter.variable)}
       >
         <Providers>{children}</Providers>
       </body>

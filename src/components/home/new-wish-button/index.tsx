@@ -7,28 +7,20 @@ import {
 } from "@/components/home/new-wish-button/new-wish-form/schema";
 import { Button, ButtonProps } from "@/components/ui/button";
 import {
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { useBreakpoint } from "@/hooks/media-query";
+  ResponsiveModal,
+  ResponsiveModalContent,
+  ResponsiveModalHeader,
+  ResponsiveModalTitle,
+  ResponsiveModalTrigger,
+} from "@/components/ui/responsive-modal";
 import { createWish } from "@/services/wishes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog } from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function NewWishButton({ ...props }: ButtonProps) {
   const [open, setOpen] = useState(false);
-  const isSm = useBreakpoint("sm");
+  const [step, setStep] = useState<1 | 2>(1);
 
   const form = useForm<NewWishFormSchema>({
     resolver: zodResolver(newWishFormSchema),
@@ -38,7 +30,6 @@ export default function NewWishButton({ ...props }: ButtonProps) {
       description: "",
     },
   });
-  const [step, setStep] = useState<1 | 2>(1);
 
   useEffect(() => {
     if (open === false) {
@@ -47,10 +38,24 @@ export default function NewWishButton({ ...props }: ButtonProps) {
     }
   }, [open]);
 
-  const submit: SubmitHandler<NewWishFormSchema> = (values) => {
+  useEffect(() => {
+    autoFocus();
+  }, [step]);
+
+  const autoFocus = (e?: Event) => {
+    e?.preventDefault();
+
+    if (step === 1) {
+      form.setFocus("uri");
+    } else if (step === 2) {
+      form.setFocus("title");
+    }
+  };
+
+  const submit: SubmitHandler<NewWishFormSchema> = async (values) => {
     setOpen(false);
 
-    createWish({
+    await createWish({
       uri: values.uri,
       title: values.title,
       description: values.description,
@@ -58,39 +63,22 @@ export default function NewWishButton({ ...props }: ButtonProps) {
     });
   };
 
-  const title = "New Wish";
-  const trigger = <Button {...props}>New Wish</Button>;
-  const content = (
-    <NewWishForm
-      form={form}
-      step={step}
-      onStepChange={setStep}
-      onSubmit={submit}
-    />
-  );
-
-  if (isSm)
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>{trigger}</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-          </DialogHeader>
-          {content}
-        </DialogContent>
-      </Dialog>
-    );
-
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-      <DrawerContent className="h-[96%]">
-        <DrawerHeader>
-          <DrawerTitle>{title}</DrawerTitle>
-        </DrawerHeader>
-        {content}
-      </DrawerContent>
-    </Drawer>
+    <ResponsiveModal open={open} onOpenChange={setOpen}>
+      <ResponsiveModalTrigger asChild>
+        <Button {...props}>New Wish</Button>
+      </ResponsiveModalTrigger>
+      <ResponsiveModalContent onOpenAutoFocus={autoFocus}>
+        <ResponsiveModalHeader>
+          <ResponsiveModalTitle>New Wish</ResponsiveModalTitle>
+        </ResponsiveModalHeader>
+        <NewWishForm
+          form={form}
+          step={step}
+          onStepChange={setStep}
+          onSubmit={submit}
+        />
+      </ResponsiveModalContent>
+    </ResponsiveModal>
   );
 }
