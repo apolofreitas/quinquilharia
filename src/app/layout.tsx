@@ -1,7 +1,8 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/classes";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Providers } from "@/components/providers";
+import { PropsWithChildren } from "react";
 
 export const metadata = {
   title: "Quinquilharia",
@@ -14,27 +15,17 @@ const inter = Inter({
   display: "swap",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           inter.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

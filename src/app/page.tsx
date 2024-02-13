@@ -1,19 +1,18 @@
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import { db } from "@/lib/db";
+import NewWishButton from "@/components/home/new-wish-button";
+import WishList from "@/components/home/wish-list";
+import RootLayout from "@/components/root-layout";
+import { getAllWishes } from "@/services/wishes";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const wishes = await db.query.wishes.findMany();
+  const wishList = await getAllWishes();
 
   return (
-    <main className="flex flex-col items-center">
-      <div className="flex flex-col items-center w-full max-w-screen-md">
-        <ThemeToggle />
-        <pre>{JSON.stringify(wishes, null, 2)}</pre>
-      </div>
-    </main>
+    <RootLayout className="flex flex-col gap-2">
+      <NewWishButton className="self-end" />
+      <WishList wishList={wishList} />
+    </RootLayout>
   );
 }

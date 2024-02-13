@@ -5,8 +5,15 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1707762134802,
-      "tag": "0000_loose_calypso",
+      "when": 1707766074384,
+      "tag": "0000_wealthy_shadow_king",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1707773114621,
+      "tag": "0001_next_rockslide",
       "breakpoints": true
     }
   ]

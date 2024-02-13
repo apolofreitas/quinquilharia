@@ -1,6 +1,6 @@
 {
-  "id": "d4dc7346-481f-4140-83bb-1bbf321cccea",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "563f7536-aa64-4ebb-9f56-e3d9b6f85974",
+  "prevId": "d4dc7346-481f-4140-83bb-1bbf321cccea",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -38,11 +38,17 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "name": {
-          "name": "name",
+        "title": {
+          "name": "title",
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "uri": {
           "name": "uri",
