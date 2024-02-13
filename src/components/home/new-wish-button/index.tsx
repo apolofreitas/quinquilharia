@@ -23,7 +23,7 @@ import { useBreakpoint } from "@/hooks/media-query";
 import { createWish } from "@/services/wishes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog } from "@radix-ui/react-dialog";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function NewWishButton({ ...props }: ButtonProps) {
@@ -39,6 +39,10 @@ export default function NewWishButton({ ...props }: ButtonProps) {
     },
   });
   const [step, setStep] = useState<1 | 2>(1);
+
+  useEffect(() => {
+    setStep(1);
+  }, [open]);
 
   const submit: SubmitHandler<NewWishFormSchema> = (values) => {
     setOpen(false);
@@ -76,7 +80,7 @@ export default function NewWishButton({ ...props }: ButtonProps) {
     );
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer shouldScaleBackground open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
